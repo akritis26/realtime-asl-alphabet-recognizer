@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101714" />
+    <meta name="description" content="A private, webcam-based ASL fingerspelling practice app. Calibrate static letters using your own examples." />
+    <title>SignSpeak — ASL Alphabet Practice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="SignSpeak home"><span class="brand-mark">S</span><span>sign<span class="brand-light">speak</span></span></a>
+        <div class="topbar-note"><span class="privacy-dot"></span> Private by design <span class="note-divider">·</span> Runs in your browser</div>
+      </header>
+
+      <section class="intro">
+        <p class="eyebrow">A PERSONAL ASL FINGERSPELLING STUDIO</p>
+        <h1>Your hands.<br /><span>Your words.</span></h1>
+        <p class="intro-copy">Practice the static ASL alphabet with a real-time webcam recognizer that learns from examples of <em>your</em> hand.</p>
+        <div class="scope-note"><span aria-hidden="true">✳</span><span><strong>24 static letters supported.</strong> J and Z are motion-based signs and aren’t part of this still-pose model.</span></div>
+      </section>
+
+      <section class="workspace" aria-label="ASL recognizer workspace">
+        <div class="camera-card card">
+          <div class="card-head"><div><span class="step">01</span><h2>Live camera</h2></div><span id="cameraStatus" class="status-pill"><i></i> Camera off</span></div>
+          <div class="video-stage" id="videoStage">
+            <video id="video" autoplay playsinline muted></video>
+            <canvas id="overlay"></canvas>
+            <div id="cameraPlaceholder" class="camera-placeholder"><div class="camera-icon">⌁</div><p>Your camera preview will appear here</p><span>Allow camera access when prompted</span></div>
+            <div class="stage-label"><span class="live-dot"></span><span id="stageLabel">WAITING FOR CAMERA</span></div>
+          </div>
+          <div class="camera-actions"><button id="cameraButton" class="button button-primary"><span>Start camera</span><span aria-hidden="true">↗</span></button><p id="modelStatus" class="microcopy">Hand model loads when you start</p></div>
+          <div class="recognition-row"><div><span class="micro-label">CURRENT SIGN</span><div id="prediction" class="prediction">—</div></div><div class="confidence-wrap"><span class="micro-label">MATCH</span><div class="confidence-track"><div id="confidenceBar"></div></div><span id="confidenceText" class="confidence-text">Waiting</span></div></div>
+        </div>
+
+        <div class="right-column">
+          <section class="card calibration-card">
+            <div class="card-head"><div><span class="step">02</span><h2>Teach your signs</h2></div><span id="sampleTotal" class="sample-total">0 examples</span></div>
+            <p class="section-copy">Choose a letter, make its sign, then capture a few examples. Vary your hand angle slightly for a more useful personal model.</p>
+            <div class="letter-grid" id="letterGrid" aria-label="Static ASL letters"></div>
+            <div class="capture-controls"><label for="selectedLetter">Selected letter</label><div class="capture-row"><select id="selectedLetter" aria-label="Letter to capture examples for"></select><button id="captureButton" class="button button-secondary" disabled>Capture examples</button></div><p id="captureStatus" class="microcopy">Start the camera to begin calibration.</p></div>
+            <div class="training-row"><button id="trainButton" class="button button-dark" disabled>Train recognizer <span aria-hidden="true">→</span></button><span id="trainingStatus" class="training-status">Add at least 3 examples per letter.</span></div>
+            <div class="data-actions"><button id="exportButton" class="text-button">Export examples</button><label class="text-button import-label" for="importInput">Import examples</label><input id="importInput" type="file" accept="application/json,.json" hidden /><button id="clearButton" class="text-button danger">Clear all</button></div>
+          </section>
+
+          <section class="card phrase-card">
+            <div class="card-head"><div><span class="step">03</span><h2>Build a phrase</h2></div><span class="phrase-hint">Hold a sign to add it</span></div>
+            <div id="phrase" class="phrase" aria-live="polite"><span class="phrase-placeholder">Your letters will show up here</span></div>
+            <div class="phrase-actions"><button id="spaceButton" class="button button-quiet" disabled>Add space</button><button id="backspaceButton" class="button button-quiet" disabled>⌫</button><button id="clearPhraseButton" class="button button-quiet" disabled>Clear phrase</button></div>
+            <p class="privacy-foot"><span>◉</span> Camera frames and calibration examples stay on this device.</p>
+          </section>
+        </div>
+      </section>
+
+      <footer><span>ASL STATIC ALPHABET · PERSONAL CALIBRATION</span><span>Built for practice, not a substitute for an interpreter.</span></footer>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
